@@ -386,3 +386,10 @@ a.secondary {
 .deleteButton:hover {
   background: #c00;
 }
+
+.qrError {
+  color: #e00;
+  font-size: 14px;
+  padding: 20px;
+  text-align: center;
+}

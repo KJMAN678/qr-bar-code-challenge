@@ -1,8 +1,8 @@
 'use client'
 
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import bwipjs from 'bwip-js';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Barcode from 'react-barcode';
 import styles from './page.module.css';
 
@@ -25,6 +25,44 @@ interface Choices {
   code_types: Choice[];
   qr_formats: Choice[];
   barcode_formats: Choice[];
+}
+
+interface QRCodeProps {
+  text: string;
+  format: string;
+  size?: number;
+}
+
+function QRCodeCanvas({ text, format, size = 150 }: QRCodeProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const bcid = format === 'micro_qr' ? 'microqrcode' : 'qrcode';
+
+    try {
+      bwipjs.toCanvas(canvasRef.current, {
+        bcid: bcid,
+        text: text,
+        scale: 3,
+        width: size / 25.4,
+        height: size / 25.4,
+        includetext: false,
+      });
+      setError(null);
+    } catch (err) {
+      console.error('Failed to generate QR code:', err);
+      setError('QRコードの生成に失敗しました');
+    }
+  }, [text, format, size]);
+
+  if (error) {
+    return <div className={styles.qrError}>{error}</div>;
+  }
+
+  return <canvas ref={canvasRef} />;
 }
 
 export default function Page() {
@@ -197,7 +235,7 @@ export default function Page() {
             <div key={code.id} className={styles.codeCard}>
               <div className={styles.codeDisplay}>
                 {code.code_type === 'qr_code' ? (
-                  <QRCodeSVG value={code.text} size={150} />
+                  <QRCodeCanvas text={code.text} format={code.qr_format} size={150} />
                 ) : (
                   <Barcode
                     value={code.text}
