@@ -1,0 +1,9 @@
+export DJANGO_SUPERUSER_USERNAME=admin
+export DJANGO_SUPERUSER_EMAIL=admin@admin.com
+export DJANGO_SUPERUSER_PASSWORD=admin
+export NEXT_PUBLIC_API_URL=http://localhost:8000
+export DJANGO_SECRET_KEY=hoge
+export POSTGRES_DB=postgres
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=postgres
+export NEXT_PUBLIC_URL=http://localhost:3000

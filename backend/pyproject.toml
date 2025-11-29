@@ -1,0 +1,52 @@
+[project]
+name = "fe-nextjs-be-django"
+version = "0.1.0"
+description = "FE Next.js BE Django"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "Django==5.2.8",
+    "psycopg2-binary==2.9.10",
+    "django-ninja==1.4.3",
+    "Markdown==3.8",
+    "django-filter==25.1",
+    "django-cors-headers==4.9.0"
+]
+
+[dependency-groups]
+dev = [
+    "ruff==0.14.7",
+    "pytest==9.0.1",
+    "django-debug-toolbar==6.1.0",
+    "pytest-django==4.11.1",
+    "factory-boy==3.3.3",
+    "djlint==1.36.4",
+    "mypy==1.18.2",
+    "django-stubs[compatible-mypy]==5.2.7",    
+]
+
+[tool.uv]
+link-mode = "copy"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.13"
+plugins = ["mypy_django_plugin.main"]
+explicit_package_bases = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+[[tool.mypy.overrides]]
+module = ["debug_toolbar.*"]
+ignore_missing_imports = true
+
+[tool.ruff.lint]
+ignore = [
+]
+
+select = [
+   "I",
+]
