@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
 
 CUSTOM_APPS = [
     "config",
+    "api",
 ]
 
 INSTALLED_APPS = BASE_APPS + THIRD_PARTY_APPS + CUSTOM_APPS

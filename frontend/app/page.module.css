@@ -166,3 +166,223 @@ a.secondary {
     filter: invert();
   }
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #fff;
+  }
+}
+
+.form {
+  background: #f9f9f9;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .form {
+    background: #2a2a2a;
+  }
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .formGroup label {
+    color: #fff;
+  }
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  .textarea {
+    background: #333;
+    border-color: #555;
+    color: #fff;
+  }
+}
+
+.select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fff;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .select {
+    background: #333;
+    border-color: #555;
+    color: #fff;
+  }
+}
+
+.button {
+  width: 100%;
+  padding: 14px 24px;
+  background: #0070f3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover {
+  background: #0051a8;
+}
+
+.button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #e00;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #fff;
+  }
+}
+
+.empty {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .empty {
+    color: #aaa;
+  }
+}
+
+.codeList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.codeCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .codeCard {
+    background: #2a2a2a;
+  }
+}
+
+.codeDisplay {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.codeInfo {
+  width: 100%;
+  text-align: center;
+}
+
+.codeText {
+  font-size: 14px;
+  color: #333;
+  word-break: break-all;
+  margin-bottom: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .codeText {
+    color: #fff;
+  }
+}
+
+.codeType,
+.codeFormat {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .codeType,
+  .codeFormat {
+    color: #aaa;
+  }
+}
+
+.deleteButton {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #e00;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.deleteButton:hover {
+  background: #c00;
+}
