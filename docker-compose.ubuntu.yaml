@@ -35,7 +35,7 @@ services:
       - db
 
   db:
-    image: postgres:18.1-alpine3.22
+    image: postgres:17.7-alpine3.22
     ports:
         - "5432:5432"
     environment:
