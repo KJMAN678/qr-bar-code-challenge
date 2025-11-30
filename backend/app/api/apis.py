@@ -42,31 +42,6 @@ def validate_barcode_text(text: str, barcode_format: str) -> None:
             raise HttpError(400, "ITFは偶数桁の数字のみ対応しています")
 
 
-def validate_code_type_format(
-    code_type: str, qr_format: str | None, barcode_format: str | None
-) -> None:
-    """コード種類と規格の整合性をバリデーション"""
-    if code_type == "qr_code":
-        if barcode_format and barcode_format not in ["code128", ""]:
-            pass
-        qr_valid_formats = [choice[0] for choice in QRCodeFormat.choices]
-        if qr_format and qr_format not in qr_valid_formats:
-            raise HttpError(
-                400,
-                f"QRコードの規格は {', '.join(qr_valid_formats)} のみ選択可能です",
-            )
-    elif code_type == "barcode":
-        barcode_valid_formats = [choice[0] for choice in BarcodeFormat.choices]
-        if barcode_format and barcode_format not in barcode_valid_formats:
-            raise HttpError(
-                400,
-                f"バーコードの規格は {', '.join(barcode_valid_formats)} のみ選択可能です",
-            )
-        qr_valid_formats = [choice[0] for choice in QRCodeFormat.choices]
-        if qr_format and qr_format not in qr_valid_formats:
-            pass
-
-
 class CodeDataSchema(Schema):
     id: int
     text: str
@@ -81,14 +56,18 @@ class CodeDataCreateSchema(Schema):
     text: str
     code_type: Literal["qr_code", "barcode"] = "qr_code"
     qr_format: Literal["qr_code", "micro_qr"] = "qr_code"
-    barcode_format: Literal["code39", "code128", "ean13", "ean8", "upca", "upce", "itf"] = "code128"
+    barcode_format: Literal[
+        "code39", "code128", "ean13", "ean8", "upca", "upce", "itf"
+    ] = "code128"
 
 
 class CodeDataUpdateSchema(Schema):
     text: str | None = None
     code_type: Literal["qr_code", "barcode"] | None = None
     qr_format: Literal["qr_code", "micro_qr"] | None = None
-    barcode_format: Literal["code39", "code128", "ean13", "ean8", "upca", "upce", "itf"] | None = None
+    barcode_format: (
+        Literal["code39", "code128", "ean13", "ean8", "upca", "upce", "itf"] | None
+    ) = None
 
 
 class CodeTypeChoicesSchema(Schema):
@@ -114,7 +93,6 @@ def get_code(request: HttpRequest, code_id: int) -> CodeData:
 
 @api.post("/codes", response=CodeDataSchema)
 def create_code(request: HttpRequest, payload: CodeDataCreateSchema) -> CodeData:
-    validate_code_type_format(payload.code_type, payload.qr_format, payload.barcode_format)
     if payload.code_type == "barcode":
         validate_barcode_text(payload.text, payload.barcode_format)
     code = CodeData.objects.create(**payload.dict())
@@ -122,18 +100,24 @@ def create_code(request: HttpRequest, payload: CodeDataCreateSchema) -> CodeData
 
 
 @api.put("/codes/{code_id}", response=CodeDataSchema)
-def update_code(request: HttpRequest, code_id: int, payload: CodeDataUpdateSchema) -> CodeData:
+def update_code(
+    request: HttpRequest, code_id: int, payload: CodeDataUpdateSchema
+) -> CodeData:
     code = get_object_or_404(CodeData, id=code_id)
-    
-    new_code_type = payload.code_type if payload.code_type is not None else code.code_type
-    new_qr_format = payload.qr_format if payload.qr_format is not None else code.qr_format
-    new_barcode_format = payload.barcode_format if payload.barcode_format is not None else code.barcode_format
+
+    new_code_type = (
+        payload.code_type if payload.code_type is not None else code.code_type
+    )
+    new_barcode_format = (
+        payload.barcode_format
+        if payload.barcode_format is not None
+        else code.barcode_format
+    )
     new_text = payload.text if payload.text is not None else code.text
-    
-    validate_code_type_format(new_code_type, new_qr_format, new_barcode_format)
+
     if new_code_type == "barcode":
         validate_barcode_text(new_text, new_barcode_format)
-    
+
     for attr, value in payload.dict(exclude_unset=True).items():
         if value is not None:
             setattr(code, attr, value)
@@ -151,7 +135,13 @@ def delete_code(request: HttpRequest, code_id: int) -> dict[str, bool]:
 @api.get("/choices", response=CodeTypeChoicesSchema)
 def get_choices(request: HttpRequest) -> dict[str, list[dict[str, str]]]:
     return {
-        "code_types": [{"value": choice[0], "label": choice[1]} for choice in CodeType.choices],
-        "qr_formats": [{"value": choice[0], "label": choice[1]} for choice in QRCodeFormat.choices],
-        "barcode_formats": [{"value": choice[0], "label": choice[1]} for choice in BarcodeFormat.choices],
+        "code_types": [
+            {"value": choice[0], "label": choice[1]} for choice in CodeType.choices
+        ],
+        "qr_formats": [
+            {"value": choice[0], "label": choice[1]} for choice in QRCodeFormat.choices
+        ],
+        "barcode_formats": [
+            {"value": choice[0], "label": choice[1]} for choice in BarcodeFormat.choices
+        ],
     }

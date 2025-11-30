@@ -31,7 +31,7 @@ BASE_APPS = [
 
 THIRD_PARTY_APPS = [
     "corsheaders",
-    "debug_toolbar",
+    # "debug_toolbar",
 ]
 
 CUSTOM_APPS = [
@@ -59,9 +59,9 @@ THIRD_PARTY_MIDDLEWARE = [
 
 MIDDLEWARE = BASE_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
 
-if settings.DEBUG:
-    # THIRD_PARTY_MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+# if settings.DEBUG:
+# THIRD_PARTY_MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+# MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "config.urls"
 
@@ -146,13 +146,13 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-import socket
+# import socket
 
-try:
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS += [ip[: ip.rfind(".")] + ".1" for ip in ips]
-except socket.gaierror:
-    # Dockerコンテナ外での実行など、名前解決に失敗した場合
-    pass
+# try:
+#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#     INTERNAL_IPS += [ip[: ip.rfind(".")] + ".1" for ip in ips]
+# except socket.gaierror:
+#     # Dockerコンテナ外での実行など、名前解決に失敗した場合
+#     pass
 
 DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: settings.DEBUG}
